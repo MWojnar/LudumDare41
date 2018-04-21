@@ -35,15 +35,18 @@ public class AssetLoader {
 	public static Texture wojworksTexture;
 	public static TextureRegion steeringWheelTexture, sliderTopTexture, sliderBottomTexture,
 			sliderBodyTexture, sliderFasterTexture, sliderPauseTexture, sliderSlowerTexture,
-			sliderTexture;
+			sliderTexture, dashLeftTexture, dashTopLeftTexture, dashTopTexture, dashTopRightTexture,
+			dashRightTexture, whiteTexture;
 	public static Sprite spriteSteeringWheel, spriteSliderTop, spriteSliderBottom, spriteSliderBody,
-			spriteSliderFaster, spriteSliderPause, spriteSliderSlower, spriteSlider;
+			spriteSliderFaster, spriteSliderPause, spriteSliderSlower, spriteSlider, spriteDashLeft,
+			spriteDashTopLeft, spriteDashTop, spriteDashTopRight, spriteDashRight, spriteWhite;
 	public static MusicHandler musicHandler;
 	public static List<Class<? extends Entity>> classList = new ArrayList<Class<? extends Entity>>();
 	public static List<Pair<String, Sprite>> spriteList = new ArrayList<Pair<String, Sprite>>();
 	public static List<Pair<String, BackgroundTemplate>> backgroundList = new ArrayList<Pair<String, BackgroundTemplate>>();
 	public static List<Pair<String, MusicTemplate>> musicList = new ArrayList<Pair<String, MusicTemplate>>();
 	public static BitmapFont debugFont = new BitmapFont(true), titleFont = new BitmapFont(true);
+	public static Color dashColor = new Color(119 / 255.0f, 28 / 255.0f, 112 / 255.0f, 1.0f);
 	public static float musicVolume = 0.5f, soundVolume = 1.0f;
 	
 	public static void load() {
@@ -137,7 +140,8 @@ public class AssetLoader {
 	public static void dispose() {}
 	
 	private static void loadTextures() {
-		
+
+		whiteTexture = atlas.findRegion("white");
 		steeringWheelTexture = atlas.findRegion("Wheel");
 		sliderTopTexture = atlas.findRegion("Slider/slider_top");
 		sliderBottomTexture = atlas.findRegion("Slider/slider_bottom");
@@ -146,11 +150,18 @@ public class AssetLoader {
 		sliderFasterTexture = atlas.findRegion("Slider/Forward_button");
 		sliderPauseTexture = atlas.findRegion("Slider/Stop_button");
 		sliderSlowerTexture = atlas.findRegion("Slider/Backward_button");
+
+		dashLeftTexture = atlas.findRegion("Dashboard_left");
+		dashTopLeftTexture = atlas.findRegion("Dashboard_left_corner");
+		dashTopTexture = atlas.findRegion("Dashboard_top");
+		dashTopRightTexture = atlas.findRegion("Dashboard_right_corner");
+		dashRightTexture = atlas.findRegion("Dashboard_right");
 		
 	}
 	
 	private static void loadSprites() {
-		
+
+		spriteWhite = new Sprite(whiteTexture, 1);
 		spriteSteeringWheel = new Sprite(steeringWheelTexture, 1);
 		spriteSliderTop = new Sprite(sliderTopTexture, 1);
 		spriteSliderBottom = new Sprite(sliderBottomTexture, 1);
@@ -159,6 +170,12 @@ public class AssetLoader {
 		spriteSliderFaster = new Sprite(sliderFasterTexture, 1);
 		spriteSliderPause = new Sprite(sliderPauseTexture, 1);
 		spriteSliderSlower = new Sprite(sliderSlowerTexture, 1);
+
+		spriteDashLeft = new Sprite(dashLeftTexture, 1);
+		spriteDashTopLeft = new Sprite(dashTopLeftTexture, 1);
+		spriteDashTop = new Sprite(dashTopTexture, 1);
+		spriteDashTopRight = new Sprite(dashTopRightTexture, 1);
+		spriteDashRight = new Sprite(dashRightTexture, 1);
 		
 	}
 	
