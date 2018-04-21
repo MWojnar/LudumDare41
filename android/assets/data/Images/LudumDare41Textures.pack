@@ -3,6 +3,41 @@ size: 512, 512
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+Dashboard_left
+  rotate: false
+  xy: 2, 436
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+Dashboard_left_corner
+  rotate: false
+  xy: 2, 458
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+Dashboard_right
+  rotate: false
+  xy: 2, 480
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+Dashboard_right_corner
+  rotate: false
+  xy: 24, 436
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+Dashboard_top
+  rotate: false
+  xy: 24, 458
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
 Slider/Backward_button
   rotate: false
   xy: 2, 322
@@ -19,28 +54,28 @@ Slider/Forward_button
   index: -1
 Slider/slider
   rotate: false
-  xy: 2, 476
+  xy: 53, 500
   size: 32, 10
   orig: 32, 10
   offset: 0, 0
   index: -1
 Slider/slider_body
   rotate: false
-  xy: 2, 500
+  xy: 15, 502
   size: 32, 1
   orig: 32, 1
   offset: 0, 0
   index: -1
 Slider/slider_bottom
   rotate: false
-  xy: 2, 436
+  xy: 24, 480
   size: 32, 14
   orig: 32, 14
   offset: 0, 0
   index: -1
 Slider/slider_top
   rotate: false
-  xy: 2, 456
+  xy: 40, 322
   size: 32, 14
   orig: 32, 14
   offset: 0, 0
@@ -61,14 +96,14 @@ spr_pause_background
   index: -1
 spr_slider_body
   rotate: false
-  xy: 15, 492
+  xy: 15, 509
   size: 7, 1
   orig: 7, 1
   offset: 0, 0
   index: -1
 spr_slider_edge
   rotate: false
-  xy: 2, 492
+  xy: 2, 502
   size: 7, 2
   orig: 7, 2
   offset: 0, 0
@@ -82,7 +117,7 @@ Wheel
   index: -1
 white
   rotate: false
-  xy: 28, 492
+  xy: 28, 509
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
