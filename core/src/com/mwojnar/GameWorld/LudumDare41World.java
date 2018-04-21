@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mwojnar.Game.LudumDare41Game;
+import com.mwojnar.GameObjects.Slider;
 import com.mwojnar.GameObjects.SteeringWheel;
 import com.mwojnar.GameObjects.Title;
 import com.mwojnar.GameWorld.LudumDare41World.Mode;
@@ -103,6 +104,9 @@ public class LudumDare41World extends GameWorld {
 		Title title = new Title(this);
 		createEntity(title);
 		createEntity(new SteeringWheel(this));
+		Slider slider = new Slider(this);
+		slider.setPos(200, 200, false);
+		createEntity(slider);
 		
 	}
 

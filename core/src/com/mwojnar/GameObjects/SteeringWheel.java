@@ -3,6 +3,7 @@ package com.mwojnar.GameObjects;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.mwojnar.Assets.AssetLoader;
+import com.playgon.GameEngine.AbsoluteEntity;
 import com.playgon.GameEngine.ControllerEvent;
 import com.playgon.GameEngine.Entity;
 import com.playgon.GameEngine.Mask;
@@ -13,7 +14,7 @@ import com.playgon.Utils.PlaygonMath;
 
 import java.util.List;
 
-public class SteeringWheel extends Entity {
+public class SteeringWheel extends AbsoluteEntity {
     private float currentRotation = 0.0f, maxTurns = 3.0f;
     private TouchEvent grabTouch = null;
     private Vector2 previousPoint = null;

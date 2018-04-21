@@ -33,8 +33,11 @@ public class AssetLoader {
 	public static AssetManager assetManager;
 	private static TextureAtlas atlas;
 	public static Texture wojworksTexture;
-	public static TextureRegion steeringWheelTexture;
-	public static Sprite spriteSteeringWheel;
+	public static TextureRegion steeringWheelTexture, sliderTopTexture, sliderBottomTexture,
+			sliderBodyTexture, sliderFasterTexture, sliderPauseTexture, sliderSlowerTexture,
+			sliderTexture;
+	public static Sprite spriteSteeringWheel, spriteSliderTop, spriteSliderBottom, spriteSliderBody,
+			spriteSliderFaster, spriteSliderPause, spriteSliderSlower, spriteSlider;
 	public static MusicHandler musicHandler;
 	public static List<Class<? extends Entity>> classList = new ArrayList<Class<? extends Entity>>();
 	public static List<Pair<String, Sprite>> spriteList = new ArrayList<Pair<String, Sprite>>();
@@ -135,13 +138,27 @@ public class AssetLoader {
 	
 	private static void loadTextures() {
 		
-		steeringWheelTexture = atlas.findRegion("spr_pause_background");
+		steeringWheelTexture = atlas.findRegion("Wheel");
+		sliderTopTexture = atlas.findRegion("Slider/slider_top");
+		sliderBottomTexture = atlas.findRegion("Slider/slider_bottom");
+		sliderBodyTexture = atlas.findRegion("Slider/slider_body");
+		sliderTexture = atlas.findRegion("Slider/slider");
+		sliderFasterTexture = atlas.findRegion("Slider/Forward_button");
+		sliderPauseTexture = atlas.findRegion("Slider/Stop_button");
+		sliderSlowerTexture = atlas.findRegion("Slider/Backward_button");
 		
 	}
 	
 	private static void loadSprites() {
 		
 		spriteSteeringWheel = new Sprite(steeringWheelTexture, 1);
+		spriteSliderTop = new Sprite(sliderTopTexture, 1);
+		spriteSliderBottom = new Sprite(sliderBottomTexture, 1);
+		spriteSliderBody = new Sprite(sliderBodyTexture, 1);
+		spriteSlider = new Sprite(sliderTexture, 1);
+		spriteSliderFaster = new Sprite(sliderFasterTexture, 1);
+		spriteSliderPause = new Sprite(sliderPauseTexture, 1);
+		spriteSliderSlower = new Sprite(sliderSlowerTexture, 1);
 		
 	}
 	
