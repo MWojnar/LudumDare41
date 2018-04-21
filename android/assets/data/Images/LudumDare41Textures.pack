@@ -1,0 +1,250 @@
+LudumDare41Textures.png
+size: 1024, 1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+background
+  rotate: false
+  xy: 568, 180
+  size: 400, 128
+  orig: 400, 128
+  offset: 0, 0
+  index: -1
+black
+  rotate: false
+  xy: 1012, 116
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+icon16
+  rotate: false
+  xy: 1006, 138
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+icon32
+  rotate: false
+  xy: 974, 180
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+icon128
+  rotate: false
+  xy: 952, 2
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+Logo
+  rotate: false
+  xy: 2, 566
+  size: 256, 63
+  orig: 256, 63
+  offset: 0, 0
+  index: -1
+red
+  rotate: false
+  xy: 1019, 116
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+spr_air_meter
+  rotate: false
+  xy: 2, 2
+  size: 944, 64
+  orig: 944, 64
+  offset: 0, 0
+  index: -1
+spr_breakablewall
+  rotate: false
+  xy: 974, 218
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+spr_breakablewall_particles
+  rotate: false
+  xy: 964, 332
+  size: 32, 8
+  orig: 32, 8
+  offset: 0, 0
+  index: 4
+spr_bubble
+  rotate: false
+  xy: 408, 396
+  size: 96, 48
+  orig: 96, 48
+  offset: 0, 0
+  index: -1
+spr_bubble_pop
+  rotate: false
+  xy: 408, 298
+  size: 144, 48
+  orig: 144, 48
+  offset: 0, 0
+  index: -1
+spr_charge_meter
+  rotate: false
+  xy: 942, 116
+  size: 64, 16
+  orig: 64, 16
+  offset: 0, 0
+  index: -1
+spr_distance_HUD
+  rotate: false
+  xy: 584, 110
+  size: 32, 16
+  orig: 32, 16
+  offset: 0, 0
+  index: -1
+spr_enemyA
+  rotate: false
+  xy: 648, 72
+  size: 288, 48
+  orig: 288, 48
+  offset: 0, 0
+  index: -1
+spr_enemyA_particles
+  rotate: false
+  xy: 964, 346
+  size: 32, 8
+  orig: 32, 8
+  offset: 0, 0
+  index: 4
+spr_explosion1R
+  rotate: false
+  xy: 942, 72
+  size: 80, 16
+  orig: 80, 16
+  offset: 0, 0
+  index: -1
+spr_explosion1Y
+  rotate: false
+  xy: 942, 94
+  size: 80, 16
+  orig: 80, 16
+  offset: 0, 0
+  index: -1
+spr_explosion2R
+  rotate: false
+  xy: 408, 352
+  size: 128, 16
+  orig: 128, 16
+  offset: 0, 0
+  index: -1
+spr_explosion2Y
+  rotate: false
+  xy: 408, 374
+  size: 128, 16
+  orig: 128, 16
+  offset: 0, 0
+  index: -1
+spr_mine
+  rotate: false
+  xy: 2, 110
+  size: 576, 48
+  orig: 576, 48
+  offset: 0, 0
+  index: -1
+spr_mine_particles
+  rotate: false
+  xy: 964, 360
+  size: 32, 8
+  orig: 32, 8
+  offset: 0, 0
+  index: 4
+spr_monster-sheet
+  rotate: false
+  xy: 2, 164
+  size: 560, 128
+  orig: 560, 128
+  offset: 0, 0
+  index: -1
+spr_monster
+  rotate: false
+  xy: 2, 298
+  size: 400, 128
+  orig: 400, 128
+  offset: 0, 0
+  index: -1
+spr_propulsion_bubble
+  rotate: false
+  xy: 408, 450
+  size: 64, 8
+  orig: 64, 8
+  offset: 0, 0
+  index: -1
+spr_spacebar
+  rotate: false
+  xy: 584, 138
+  size: 416, 36
+  orig: 416, 36
+  offset: 0, 0
+  index: -1
+spr_sub
+  rotate: false
+  xy: 974, 256
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+spr_sub_attack_fire
+  rotate: false
+  xy: 264, 566
+  size: 192, 64
+  orig: 192, 64
+  offset: 0, 0
+  index: -1
+spr_sub_charging
+  rotate: false
+  xy: 2, 72
+  size: 640, 32
+  orig: 640, 32
+  offset: 0, 0
+  index: -1
+spr_sub_hb
+  rotate: false
+  xy: 974, 294
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+ts_parallax1
+  rotate: false
+  xy: 558, 314
+  size: 400, 128
+  orig: 400, 128
+  offset: 0, 0
+  index: -1
+ts_parallax2
+  rotate: false
+  xy: 2, 432
+  size: 400, 128
+  orig: 400, 128
+  offset: 0, 0
+  index: -1
+ts_walls
+  rotate: false
+  xy: 510, 448
+  size: 400, 128
+  orig: 400, 128
+  offset: 0, 0
+  index: -1
+white
+  rotate: false
+  xy: 1012, 123
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+yellow
+  rotate: false
+  xy: 1019, 123
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
