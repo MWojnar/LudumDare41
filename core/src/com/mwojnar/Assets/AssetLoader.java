@@ -33,6 +33,8 @@ public class AssetLoader {
 	public static AssetManager assetManager;
 	private static TextureAtlas atlas;
 	public static Texture wojworksTexture;
+	public static TextureRegion steeringWheelTexture;
+	public static Sprite spriteSteeringWheel;
 	public static MusicHandler musicHandler;
 	public static List<Class<? extends Entity>> classList = new ArrayList<Class<? extends Entity>>();
 	public static List<Pair<String, Sprite>> spriteList = new ArrayList<Pair<String, Sprite>>();
@@ -133,13 +135,13 @@ public class AssetLoader {
 	
 	private static void loadTextures() {
 		
-		//load stuff
+		steeringWheelTexture = atlas.findRegion("spr_pause_background");
 		
 	}
 	
 	private static void loadSprites() {
 		
-		//load stuff
+		spriteSteeringWheel = new Sprite(steeringWheelTexture, 1);
 		
 	}
 	

@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mwojnar.Game.LudumDare41Game;
+import com.mwojnar.GameObjects.SteeringWheel;
 import com.mwojnar.GameObjects.Title;
 import com.mwojnar.GameWorld.LudumDare41World.Mode;
 import com.mwojnar.Assets.AssetLoader;
@@ -101,6 +102,7 @@ public class LudumDare41World extends GameWorld {
 		mode = Mode.MENU;
 		Title title = new Title(this);
 		createEntity(title);
+		createEntity(new SteeringWheel(this));
 		
 	}
 
@@ -172,7 +174,7 @@ public class LudumDare41World extends GameWorld {
 
 			} else if (mode == Mode.MENU) {
 
-				setCamPos(new Vector2(getCamPos(true).x, getCamPos(true).y - 15));
+				//setCamPos(new Vector2(getCamPos(true).x, getCamPos(true).y - 15));
 
 			}
 
