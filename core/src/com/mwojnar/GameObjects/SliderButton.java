@@ -21,6 +21,7 @@ public class SliderButton extends AbsoluteEntity {
     public SliderButton(GameWorld myWorld, int id) {
         super(myWorld);
         this.id = id;
+        setDepth(1000);
     }
 
     @Override

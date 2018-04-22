@@ -16,7 +16,7 @@ import java.util.List;
 
 public class Slider extends AbsoluteEntity implements ButtonSubscriber {
     private Sprite topSprite = null, bottomSprite = null, bodySprite = null;
-    private float bodyLength = 100.0f, percentageMoved = 0.0f, horBuffer = 10.0f;
+    private float bodyLength = 100.0f, percentageMoved = 0.5f, horBuffer = 10.0f;
     private List<Float> notches = new ArrayList<Float>();
     private TouchEvent grabTouch = null;
 
@@ -31,6 +31,7 @@ public class Slider extends AbsoluteEntity implements ButtonSubscriber {
         notches.add(0.0f);
         notches.add(0.5f);
         notches.add(1.0f);
+        setDepth(1000);
     }
 
     @Override
@@ -77,7 +78,7 @@ public class Slider extends AbsoluteEntity implements ButtonSubscriber {
     @Override
     public void draw(GameRenderer renderer) {
         topSprite.drawAbsolute(getPos(false).x, getPos(false).y, 0, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, renderer);
-        bodySprite.drawTiled(0, getPos(false).x, getPos(false).y + topSprite.getHeight(), bodySprite.getWidth(), bodyLength, renderer);
+        bodySprite.drawTiled(0, getWorldPos(false).x, getWorldPos(false).y + topSprite.getHeight(), bodySprite.getWidth(), bodyLength, renderer);
         bottomSprite.drawAbsolute(getPos(false).x, getPos(false).y + topSprite.getHeight() + bodyLength, 0, 1.0f, 1.0f, 0.0f, bottomSprite.getWidth() / 2.0f, bottomSprite.getHeight() / 2.0f, renderer);
         getSprite().drawAbsolute(getPos(false).x + topSprite.getWidth() / 2.0f - getSprite().getWidth() / 2.0f, getPos(false).y + topSprite.getHeight() + percentageMoved * bodyLength - getSprite().getHeight() / 2.0f,
                 0, 1.0f, 1.0f, 0.0f, getSprite().getWidth() / 2.0f, getSprite().getHeight() / 2.0f, renderer);
@@ -124,5 +125,11 @@ public class Slider extends AbsoluteEntity implements ButtonSubscriber {
 
     public float getValue() {
         return percentageMoved;
+    }
+
+    public float getSpeed() {
+        if (percentageMoved <= 0.5f)
+            return (0.5f - percentageMoved) * 50.0f;
+        return -((percentageMoved - 0.5f) * 10.0f);
     }
 }

@@ -24,6 +24,7 @@ public class SteeringWheel extends AbsoluteEntity {
         setSprite(AssetLoader.spriteSteeringWheel);
         setPivot(getSprite().getWidth() / 2.0f, getSprite().getHeight() / 2.0f);
         setMask(new Mask(this, new Vector2(getSprite().getWidth() / 2.0f, getSprite().getHeight() / 2.0f), getSprite().getWidth() / 2.0f));
+        setDepth(1000);
     }
 
     @Override
@@ -32,14 +33,14 @@ public class SteeringWheel extends AbsoluteEntity {
 
         if (grabTouch == null) {
             for (TouchEvent touchEvent : touchEventList)
-                if (touchEvent.type == TouchEvent.Type.TOUCH_DOWN && getMask().collidingWithPoint(touchEvent.point, true)) {
+                if (touchEvent.type == TouchEvent.Type.TOUCH_DOWN && getMask().collidingWithPoint(touchEvent.pointOnScreen, true)) {
                     grabTouch = touchEvent;
                     break;
                 }
         } else {
-            if (grabTouch.type == TouchEvent.Type.TOUCH_DRAG && grabTouch.previousPoint != null && !grabTouch.point.equals(grabTouch.previousPoint) && !grabTouch.point.equals(previousPoint)) {
-                float currentAngle = PlaygonMath.direction(getPos(true), grabTouch.previousPoint);
-                float nextAngle = PlaygonMath.direction(getPos(true), grabTouch.point);
+            if (grabTouch.type == TouchEvent.Type.TOUCH_DRAG && grabTouch.previousPointOnScreen != null && !grabTouch.pointOnScreen.equals(grabTouch.previousPoint) && !grabTouch.pointOnScreen.equals(previousPoint)) {
+                float currentAngle = PlaygonMath.direction(getPos(true), grabTouch.previousPointOnScreen);
+                float nextAngle = PlaygonMath.direction(getPos(true), grabTouch.pointOnScreen);
                 float angleDiff = nextAngle - currentAngle;
 
                 while (angleDiff > Math.PI / 2.0f)
@@ -48,7 +49,7 @@ public class SteeringWheel extends AbsoluteEntity {
                     angleDiff += (float)Math.PI;
 
                 currentRotation += angleDiff;
-                previousPoint = grabTouch.point.cpy();
+                previousPoint = grabTouch.pointOnScreen.cpy();
             }
             if (grabTouch.type == TouchEvent.Type.TOUCH_UP || grabTouch.type == TouchEvent.Type.DEAD)
                 grabTouch = null;
@@ -59,5 +60,9 @@ public class SteeringWheel extends AbsoluteEntity {
         else if (currentRotation < -Math.PI * maxTurns)
             currentRotation = -(float)Math.PI * maxTurns;
         setRotation(currentRotation * 180.0f / (float)Math.PI);
+    }
+
+    public float getTargetRotation() {
+        return (currentRotation * 45.0f / ((float)Math.PI * maxTurns));
     }
 }

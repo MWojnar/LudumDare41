@@ -3,86 +3,107 @@ size: 512, 512
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+car
+  rotate: false
+  xy: 2, 322
+  size: 48, 80
+  orig: 48, 80
+  offset: 0, 0
+  index: -1
+checkerboard
+  rotate: false
+  xy: 40, 446
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 Dashboard_left
   rotate: false
-  xy: 2, 436
+  xy: 68, 484
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 Dashboard_left_corner
   rotate: false
-  xy: 2, 458
+  xy: 56, 322
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 Dashboard_right
   rotate: false
-  xy: 2, 480
+  xy: 56, 344
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 Dashboard_right_corner
   rotate: false
-  xy: 24, 436
+  xy: 56, 366
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 Dashboard_top
   rotate: false
-  xy: 24, 458
+  xy: 78, 322
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
+Done
+  rotate: false
+  xy: 2, 484
+  size: 60, 17
+  orig: 60, 17
+  offset: 0, 0
+  index: -1
 Slider/Backward_button
   rotate: false
-  xy: 2, 322
+  xy: 2, 408
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 Slider/Forward_button
   rotate: false
-  xy: 2, 360
+  xy: 2, 446
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 Slider/slider
   rotate: false
-  xy: 53, 500
+  xy: 100, 322
   size: 32, 10
   orig: 32, 10
   offset: 0, 0
   index: -1
 Slider/slider_body
   rotate: false
-  xy: 15, 502
+  xy: 15, 507
   size: 32, 1
   orig: 32, 1
   offset: 0, 0
   index: -1
 Slider/slider_bottom
   rotate: false
-  xy: 24, 480
+  xy: 56, 388
   size: 32, 14
   orig: 32, 14
   offset: 0, 0
   index: -1
 Slider/slider_top
   rotate: false
-  xy: 40, 322
+  xy: 78, 344
   size: 32, 14
   orig: 32, 14
   offset: 0, 0
   index: -1
 Slider/Stop_button
   rotate: false
-  xy: 2, 398
+  xy: 40, 408
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -96,14 +117,14 @@ spr_pause_background
   index: -1
 spr_slider_body
   rotate: false
-  xy: 15, 509
+  xy: 53, 507
   size: 7, 1
   orig: 7, 1
   offset: 0, 0
   index: -1
 spr_slider_edge
   rotate: false
-  xy: 2, 502
+  xy: 2, 507
   size: 7, 2
   orig: 7, 2
   offset: 0, 0
@@ -117,7 +138,7 @@ Wheel
   index: -1
 white
   rotate: false
-  xy: 28, 509
+  xy: 66, 507
   size: 1, 1
   orig: 1, 1
   offset: 0, 0

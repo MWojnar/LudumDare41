@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.mwojnar.Game.LudumDare41Game;
+import com.playgon.GameEngine.Background;
 import com.playgon.GameEngine.BackgroundTemplate;
 import com.playgon.GameEngine.Entity;
 import com.playgon.GameEngine.MaskSurface;
@@ -36,10 +37,13 @@ public class AssetLoader {
 	public static TextureRegion steeringWheelTexture, sliderTopTexture, sliderBottomTexture,
 			sliderBodyTexture, sliderFasterTexture, sliderPauseTexture, sliderSlowerTexture,
 			sliderTexture, dashLeftTexture, dashTopLeftTexture, dashTopTexture, dashTopRightTexture,
-			dashRightTexture, whiteTexture;
+			dashRightTexture, whiteTexture, doneButtonTexture, carTexture;
+	public static TextureRegion checkeredBackgroundTexture;
 	public static Sprite spriteSteeringWheel, spriteSliderTop, spriteSliderBottom, spriteSliderBody,
 			spriteSliderFaster, spriteSliderPause, spriteSliderSlower, spriteSlider, spriteDashLeft,
-			spriteDashTopLeft, spriteDashTop, spriteDashTopRight, spriteDashRight, spriteWhite;
+			spriteDashTopLeft, spriteDashTop, spriteDashTopRight, spriteDashRight, spriteWhite,
+			spriteDoneButton, spriteCar;
+	public static BackgroundTemplate backgroundCheckered;
 	public static MusicHandler musicHandler;
 	public static List<Class<? extends Entity>> classList = new ArrayList<Class<? extends Entity>>();
 	public static List<Pair<String, Sprite>> spriteList = new ArrayList<Pair<String, Sprite>>();
@@ -150,12 +154,16 @@ public class AssetLoader {
 		sliderFasterTexture = atlas.findRegion("Slider/Forward_button");
 		sliderPauseTexture = atlas.findRegion("Slider/Stop_button");
 		sliderSlowerTexture = atlas.findRegion("Slider/Backward_button");
+		doneButtonTexture = atlas.findRegion("Done");
+		carTexture = atlas.findRegion("car");
 
 		dashLeftTexture = atlas.findRegion("Dashboard_left");
 		dashTopLeftTexture = atlas.findRegion("Dashboard_left_corner");
 		dashTopTexture = atlas.findRegion("Dashboard_top");
 		dashTopRightTexture = atlas.findRegion("Dashboard_right_corner");
 		dashRightTexture = atlas.findRegion("Dashboard_right");
+
+		checkeredBackgroundTexture = atlas.findRegion("checkerboard");
 		
 	}
 	
@@ -170,12 +178,16 @@ public class AssetLoader {
 		spriteSliderFaster = new Sprite(sliderFasterTexture, 1);
 		spriteSliderPause = new Sprite(sliderPauseTexture, 1);
 		spriteSliderSlower = new Sprite(sliderSlowerTexture, 1);
+		spriteDoneButton = new Sprite(doneButtonTexture, 1);
+		spriteCar = new Sprite(carTexture, 1);
 
 		spriteDashLeft = new Sprite(dashLeftTexture, 1);
 		spriteDashTopLeft = new Sprite(dashTopLeftTexture, 1);
 		spriteDashTop = new Sprite(dashTopTexture, 1);
 		spriteDashTopRight = new Sprite(dashTopRightTexture, 1);
 		spriteDashRight = new Sprite(dashRightTexture, 1);
+
+		backgroundCheckered = new BackgroundTemplate(checkeredBackgroundTexture, 1);
 		
 	}
 	

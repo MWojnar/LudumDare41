@@ -10,12 +10,13 @@ public class Dashboard extends AbsoluteEntity {
 
     public Dashboard(GameWorld myWorld) {
         super(myWorld);
+        setDepth(1000);
     }
 
     @Override
     public void draw(GameRenderer renderer) {
-        AssetLoader.spriteDashTopLeft.drawAbsolute(getWorldPos(false).x, getWorldPos(false).y, 0, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, renderer);
-        AssetLoader.spriteDashTopRight.drawAbsolute(getWorldPos(false).x + width - AssetLoader.spriteDashTopRight.getWidth(), getWorldPos(false).y, 0, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, renderer);
+        AssetLoader.spriteDashTopLeft.drawAbsolute(getPos(false).x, getPos(false).y, 0, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, renderer);
+        AssetLoader.spriteDashTopRight.drawAbsolute(getPos(false).x + width - AssetLoader.spriteDashTopRight.getWidth(), getPos(false).y, 0, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, renderer);
         AssetLoader.spriteDashTop.drawTiled(0, getWorldPos(false).x + AssetLoader.spriteDashTopLeft.getWidth(), getWorldPos(false).y,
                 width - AssetLoader.spriteDashTopLeft.getWidth() - AssetLoader.spriteDashTopRight.getWidth(), AssetLoader.spriteDashTop.getHeight(), renderer);
         AssetLoader.spriteDashLeft.drawTiled(0, getWorldPos(false).x, getWorldPos(false).y + AssetLoader.spriteDashTopLeft.getHeight(),
