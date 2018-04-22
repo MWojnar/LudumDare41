@@ -12,6 +12,10 @@ import com.playgon.GameWorld.GameRenderer;
 import com.playgon.GameWorld.GameWorld;
 import com.playgon.Utils.PlaygonMath;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+import java.io.FileReader;
 import java.util.List;
 
 public class SteeringWheel extends AbsoluteEntity {
@@ -25,6 +29,17 @@ public class SteeringWheel extends AbsoluteEntity {
         setPivot(getSprite().getWidth() / 2.0f, getSprite().getHeight() / 2.0f);
         setMask(new Mask(this, new Vector2(getSprite().getWidth() / 2.0f, getSprite().getHeight() / 2.0f), getSprite().getWidth() / 2.0f));
         setDepth(1000);
+    }
+
+    @Override
+    public void onCreate() {
+        JSONParser jsonParser = new JSONParser();
+        try {
+            JSONObject jsonObject = (JSONObject)jsonParser.parse(new FileReader("CarAttributes.txt"));
+            maxTurns = Float.parseFloat((String)jsonObject.get("Wheel turns from end to end"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -63,6 +78,6 @@ public class SteeringWheel extends AbsoluteEntity {
     }
 
     public float getTargetRotation() {
-        return (currentRotation * 45.0f / ((float)Math.PI * maxTurns));
+        return (currentRotation / ((float)Math.PI * maxTurns));
     }
 }

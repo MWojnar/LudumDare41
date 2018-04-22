@@ -129,7 +129,7 @@ public class Slider extends AbsoluteEntity implements ButtonSubscriber {
 
     public float getSpeed() {
         if (percentageMoved <= 0.5f)
-            return (0.5f - percentageMoved) * 50.0f;
-        return -((percentageMoved - 0.5f) * 10.0f);
+            return (0.5f - percentageMoved) * 2.0f;
+        return -((percentageMoved - 0.5f) * 2.0f);
     }
 }

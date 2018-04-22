@@ -1,18 +1,10 @@
 package com.mwojnar.GameObjects;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.Joint;
-import com.badlogic.gdx.physics.box2d.JointDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
-import com.badlogic.gdx.physics.box2d.joints.FrictionJointDef;
-import com.badlogic.gdx.physics.box2d.joints.GearJointDef;
-import com.badlogic.gdx.physics.box2d.joints.MotorJointDef;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.mwojnar.Assets.AssetLoader;
@@ -24,13 +16,18 @@ import com.playgon.GameWorld.GameRenderer;
 import com.playgon.GameWorld.GameWorld;
 import com.playgon.Utils.PlaygonMath;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+import java.io.FileReader;
 import java.util.List;
 
 public class Car extends Entity {
     private Body physicsBody = null, topLeftWheel = null, topRightWheel = null, bottomLeftWheel = null, bottomRightWheel = null;
     private RevoluteJoint topLeftJoint = null, topRightJoint = null;
     public boolean canMove = false;
-    private float wheelAngle = 0.0f, tireAngle = 0.0f, tireRotationSpeed = (float)Math.PI / 200.0f, tireMaxRotation = (float)Math.PI / 4.0f;
+    private float wheelAngle = 0.0f, tireAngle = 0.0f, tireRotationSpeed = (float)Math.PI / 200.0f, tireMaxRotation = (float)Math.PI / 4.0f,
+    friction = 1.0f, turningFriction = 2.0f, bodyDensity = 0.1f, tireDensity = 0.1f, maxForwardSpeed = 25.0f, maxReverseSpeed = 5.0f;
     private final float PIXELS_TO_METERS = 18.0f;
 
     public static Car globalTest = null;
@@ -44,6 +41,21 @@ public class Car extends Entity {
 
     @Override
     public void onCreate() {
+        JSONParser jsonParser = new JSONParser();
+        try {
+            JSONObject jsonObject = (JSONObject)jsonParser.parse(new FileReader("CarAttributes.txt"));
+            tireRotationSpeed = Float.parseFloat((String)jsonObject.get("Tire Rotation Max Speed")) * (float)Math.PI / 180.0f;
+            tireMaxRotation = Float.parseFloat((String)jsonObject.get("Tire Max Turn")) * (float)Math.PI / 180.0f;
+            friction = Float.parseFloat((String)jsonObject.get("Linear Dampening (Friction)"));
+            turningFriction = Float.parseFloat((String)jsonObject.get("Angular Dampening (Turning Friction)"));
+            bodyDensity = Float.parseFloat((String)jsonObject.get("Car Body Density"));
+            tireDensity = Float.parseFloat((String)jsonObject.get("Car Tires Density"));
+            maxForwardSpeed = Float.parseFloat((String)jsonObject.get("Max Forward Force"));
+            maxReverseSpeed = Float.parseFloat((String)jsonObject.get("Max Reverse Force"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         BodyDef physicsBodyDef = new BodyDef();
         physicsBodyDef.type = BodyDef.BodyType.DynamicBody;
         physicsBodyDef.position.set(getPos(false).x / PIXELS_TO_METERS, getPos(false).y / PIXELS_TO_METERS);
@@ -52,7 +64,7 @@ public class Car extends Entity {
         shape.setAsBox(getSprite().getWidth() / 2.0f / PIXELS_TO_METERS, getSprite().getHeight() / 2.0f / PIXELS_TO_METERS);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 0.1f;
+        fixtureDef.density = bodyDensity;
         physicsBody.createFixture(fixtureDef);
 
         physicsBodyDef = new BodyDef();
@@ -63,7 +75,7 @@ public class Car extends Entity {
         shape.setAsBox(2.0f / PIXELS_TO_METERS, 4.0f / PIXELS_TO_METERS);
         fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 0.1f;
+        fixtureDef.density = tireDensity;
         topLeftWheel.createFixture(fixtureDef);
         RevoluteJointDef jointDef = new RevoluteJointDef();
         jointDef.bodyA = physicsBody;
@@ -83,7 +95,7 @@ public class Car extends Entity {
         shape.setAsBox(2.0f / PIXELS_TO_METERS, 4.0f / PIXELS_TO_METERS);
         fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 0.1f;
+        fixtureDef.density = tireDensity;
         topRightWheel.createFixture(fixtureDef);
         jointDef = new RevoluteJointDef();
         jointDef.bodyA = physicsBody;
@@ -103,7 +115,7 @@ public class Car extends Entity {
         shape.setAsBox(2.0f / PIXELS_TO_METERS, 4.0f / PIXELS_TO_METERS);
         fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 0.1f;
+        fixtureDef.density = tireDensity;
         bottomLeftWheel.createFixture(fixtureDef);
         jointDef = new RevoluteJointDef();
         jointDef.bodyA = physicsBody;
@@ -123,7 +135,7 @@ public class Car extends Entity {
         shape.setAsBox(2.0f / PIXELS_TO_METERS, 4.0f / PIXELS_TO_METERS);
         fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 0.1f;
+        fixtureDef.density = tireDensity;
         bottomRightWheel.createFixture(fixtureDef);
         jointDef = new RevoluteJointDef();
         jointDef.bodyA = physicsBody;
@@ -136,8 +148,8 @@ public class Car extends Entity {
         ((LudumDare41World)getWorld()).getPhysicsWorld().createJoint(jointDef);
 
         shape.dispose();
-        physicsBody.setLinearDamping(1.0f);
-        physicsBody.setAngularDamping(2.0f);
+        physicsBody.setLinearDamping(friction);
+        physicsBody.setAngularDamping(turningFriction);
     }
 
     @Override
@@ -150,8 +162,12 @@ public class Car extends Entity {
         setPos(physicsBody.getPosition().x * PIXELS_TO_METERS,  physicsBody.getPosition().y * PIXELS_TO_METERS, false);
         setRotation(PlaygonMath.toDegrees(physicsBody.getAngle()));
 
-        float targetRotation = ((LudumDare41World)getWorld()).getTargetRotation() * (float)Math.PI / 180.0f;
+        float targetRotation = ((LudumDare41World)getWorld()).getTargetRotation() * tireMaxRotation;
         float speed = ((LudumDare41World)getWorld()).getSpeed();
+        if (speed > 0)
+            speed *= maxForwardSpeed;
+        else
+            speed *= maxReverseSpeed;
 
         if (canMove) {
             if (Math.abs(targetRotation - tireAngle) < tireRotationSpeed)
