@@ -87,9 +87,11 @@ project(":core") {
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
 		compile name: 'PlaygonEngine'
+		compile name: 'PolygonClipper'
 		compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
 		compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
     }
 }
 

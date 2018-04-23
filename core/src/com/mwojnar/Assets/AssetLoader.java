@@ -17,6 +17,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.mwojnar.Game.LudumDare41Game;
+import com.mwojnar.GameObjects.Car;
+import com.mwojnar.GameObjects.CarMarker;
+import com.mwojnar.GameObjects.FinishLine;
+import com.mwojnar.GameObjects.PolyWall;
+import com.mwojnar.GameObjects.Road;
 import com.playgon.GameEngine.Background;
 import com.playgon.GameEngine.BackgroundTemplate;
 import com.playgon.GameEngine.Entity;
@@ -37,20 +42,25 @@ public class AssetLoader {
 	public static TextureRegion steeringWheelTexture, sliderTopTexture, sliderBottomTexture,
 			sliderBodyTexture, sliderFasterTexture, sliderPauseTexture, sliderSlowerTexture,
 			sliderTexture, dashLeftTexture, dashTopLeftTexture, dashTopTexture, dashTopRightTexture,
-			dashRightTexture, whiteTexture, doneButtonTexture, carTexture;
+			dashRightTexture, whiteTexture, doneButtonTexture, carTexture, grassTexture, roadTexture,
+			finishTexture, wallTexture;
 	public static TextureRegion checkeredBackgroundTexture;
 	public static Sprite spriteSteeringWheel, spriteSliderTop, spriteSliderBottom, spriteSliderBody,
 			spriteSliderFaster, spriteSliderPause, spriteSliderSlower, spriteSlider, spriteDashLeft,
 			spriteDashTopLeft, spriteDashTop, spriteDashTopRight, spriteDashRight, spriteWhite,
-			spriteDoneButton, spriteCar;
-	public static BackgroundTemplate backgroundCheckered;
+			spriteDoneButton, spriteCar, spriteRoad, spriteFinish, spriteWall;
+	public static BackgroundTemplate backgroundCheckered, backgroundGrass;
+	public static MusicTemplate musicMain;
 	public static MusicHandler musicHandler;
-	public static List<Class<? extends Entity>> classList = new ArrayList<Class<? extends Entity>>();
+	public static List<Class<? extends Entity>> classList = new ArrayList<Class<? extends Entity>>(Arrays.asList(CarMarker.class, Road.class, PolyWall.class, FinishLine.class));
 	public static List<Pair<String, Sprite>> spriteList = new ArrayList<Pair<String, Sprite>>();
+	public static List<Pair<String, ?>> spriteWallBackgroundList = new ArrayList<Pair<String, ?>>();
 	public static List<Pair<String, BackgroundTemplate>> backgroundList = new ArrayList<Pair<String, BackgroundTemplate>>();
 	public static List<Pair<String, MusicTemplate>> musicList = new ArrayList<Pair<String, MusicTemplate>>();
+	public static List<Class<? extends MaskSurface>> surfaceClassList = new ArrayList<Class<? extends MaskSurface>>();
 	public static BitmapFont debugFont = new BitmapFont(true), titleFont = new BitmapFont(true);
 	public static Color dashColor = new Color(119 / 255.0f, 28 / 255.0f, 112 / 255.0f, 1.0f);
+	public static Color[] playerColors = new Color[] {Color.BLUE, Color.RED, Color.YELLOW, Color.GREEN, Color.PURPLE, Color.ORANGE, Color.CYAN, Color.BROWN};
 	public static float musicVolume = 0.5f, soundVolume = 1.0f;
 	
 	public static void load() {
@@ -129,9 +139,9 @@ public class AssetLoader {
 	
 	private static void loadMusic() {
 		
-		/*mainMusic = new MusicTemplate(Gdx.files.internal("data/Music/AquaAscent_Theme.mp3"));
-		mainMusic.setLooping(true);
-		musicHandler.addMusic(mainMusic);*/
+		musicMain = new MusicTemplate(Gdx.files.internal("data/Music/music.mp3"));
+		musicMain.setLooping(true);
+		musicHandler.addMusic(musicMain);
 		
 	}
 	
@@ -156,6 +166,10 @@ public class AssetLoader {
 		sliderSlowerTexture = atlas.findRegion("Slider/Backward_button");
 		doneButtonTexture = atlas.findRegion("Done");
 		carTexture = atlas.findRegion("car");
+		grassTexture = atlas.findRegion("Grass_texture");
+		roadTexture = atlas.findRegion("Road_texture");
+		finishTexture = atlas.findRegion("finish");
+		wallTexture = atlas.findRegion("wall_texture");
 
 		dashLeftTexture = atlas.findRegion("Dashboard_left");
 		dashTopLeftTexture = atlas.findRegion("Dashboard_left_corner");
@@ -180,6 +194,16 @@ public class AssetLoader {
 		spriteSliderSlower = new Sprite(sliderSlowerTexture, 1);
 		spriteDoneButton = new Sprite(doneButtonTexture, 1);
 		spriteCar = new Sprite(carTexture, 1);
+		spriteList.add(new Pair<String, Sprite>("Car", spriteCar));
+		spriteRoad = new Sprite(roadTexture, 1);
+		spriteList.add(new Pair<String, Sprite>("Road", spriteRoad));
+		spriteWallBackgroundList.add(new Pair<String, Sprite>("Road", spriteRoad));
+		spriteFinish = new Sprite(finishTexture, 1);
+		spriteList.add(new Pair<String, Sprite>("Finish", spriteFinish));
+		spriteWallBackgroundList.add(new Pair<String, Sprite>("Finish", spriteFinish));
+		spriteWall = new Sprite(wallTexture, 1);
+		spriteList.add(new Pair<String, Sprite>("Wall", spriteWall));
+		spriteWallBackgroundList.add(new Pair<String, Sprite>("Wall", spriteWall));
 
 		spriteDashLeft = new Sprite(dashLeftTexture, 1);
 		spriteDashTopLeft = new Sprite(dashTopLeftTexture, 1);
@@ -188,6 +212,9 @@ public class AssetLoader {
 		spriteDashRight = new Sprite(dashRightTexture, 1);
 
 		backgroundCheckered = new BackgroundTemplate(checkeredBackgroundTexture, 1);
+		backgroundList.add(new Pair<String, BackgroundTemplate>("Checkered", backgroundCheckered));
+		backgroundGrass = new BackgroundTemplate(grassTexture, 1);
+		backgroundList.add(new Pair<String, BackgroundTemplate>("Grass", backgroundGrass));
 		
 	}
 	

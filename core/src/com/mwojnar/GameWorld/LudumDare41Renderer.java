@@ -52,16 +52,16 @@ public class LudumDare41Renderer extends GameRenderer {
 			//getShapeRenderer().circle(getCamPos(false).x + getDimensions().x / 2.0f, getMyWorld().getViewEntityPosY(), 5);
 			//getShapeRenderer().end();
 			
-			if (((LudumDare41World) getMyWorld()).isPaused()) {
+			//if (((LudumDare41World) getMyWorld()).isPaused()) {
 				
 				/*getBatcher().begin();
 				dribbleText.drawAbsolute(this, getDimensions().x / 2.0f, getDimensions().y / 2.0f - 10.0f, "Paused", 1.0f, 1.0f, 0.0f, DribbleText.Align.CENTER, DribbleText.Align.CENTER, 20, AssetLoader.greenTextColor);
 				dribbleText.drawAbsolute(this, getDimensions().x - 10.0f, getDimensions().y - 20.0f, "Main Menu", 1.0f, 1.0f, 0.0f, DribbleText.Align.RIGHT, DribbleText.Align.RIGHT, 20, AssetLoader.greenTextColor);
 				getBatcher().end();*/
 				
-			}
+			//}
 			
-			if (((LudumDare41World) getMyWorld()).isLoading()) {
+			//if (((LudumDare41World) getMyWorld()).isLoading()) {
 				
 	//			SpriteBatch batch = getBatcher();
 	//			batch.begin();
@@ -84,7 +84,7 @@ public class LudumDare41Renderer extends GameRenderer {
 				getBatcher().setColor(previousColor);
 				getBatcher().end();*/
 				
-			}
+			//}
 			
 	//		if (((DribbleWorld)this.getMyWorld()).isShowFPS()) {
 	//			
@@ -109,7 +109,7 @@ public class LudumDare41Renderer extends GameRenderer {
 	//			
 	//		}
 			
-			if (((LudumDare41World) getMyWorld()).getLevelToLoad() != null) {
+			//if (((LudumDare41World) getMyWorld()).getLevelToLoad() != null) {
 				
 				/*getBatcher().begin();
 				this.setCamPos(new Vector2(getMyWorld().getGameDimensions().x / 2.0f, getMyWorld().getGameDimensions().y / 2.0f));
@@ -120,7 +120,7 @@ public class LudumDare41Renderer extends GameRenderer {
 				getBatcher().setColor(previousColor);
 				getBatcher().end();*/
 				
-			}
+			//}
 			
 		} else {
 			

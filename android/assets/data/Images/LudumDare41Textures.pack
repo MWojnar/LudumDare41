@@ -5,105 +5,126 @@ filter: Nearest,Nearest
 repeat: none
 car
   rotate: false
-  xy: 2, 322
+  xy: 136, 188
   size: 48, 80
   orig: 48, 80
   offset: 0, 0
   index: -1
 checkerboard
   rotate: false
-  xy: 40, 446
+  xy: 136, 274
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 Dashboard_left
   rotate: false
-  xy: 68, 484
+  xy: 2, 494
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 Dashboard_left_corner
   rotate: false
-  xy: 56, 322
+  xy: 24, 494
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 Dashboard_right
   rotate: false
-  xy: 56, 344
+  xy: 46, 494
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 Dashboard_right_corner
   rotate: false
-  xy: 56, 366
+  xy: 68, 494
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 Dashboard_top
   rotate: false
-  xy: 78, 322
+  xy: 90, 494
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 Done
   rotate: false
-  xy: 2, 484
+  xy: 136, 388
   size: 60, 17
   orig: 60, 17
   offset: 0, 0
   index: -1
+finish
+  rotate: false
+  xy: 136, 312
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+Grass_texture
+  rotate: false
+  xy: 2, 188
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+Road_texture
+  rotate: false
+  xy: 2, 456
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 Slider/Backward_button
   rotate: false
-  xy: 2, 408
+  xy: 40, 456
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 Slider/Forward_button
   rotate: false
-  xy: 2, 446
+  xy: 78, 456
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 Slider/slider
   rotate: false
-  xy: 100, 322
+  xy: 136, 411
   size: 32, 10
   orig: 32, 10
   offset: 0, 0
   index: -1
 Slider/slider_body
   rotate: false
-  xy: 15, 507
+  xy: 136, 435
   size: 32, 1
   orig: 32, 1
   offset: 0, 0
   index: -1
 Slider/slider_bottom
   rotate: false
-  xy: 56, 388
+  xy: 112, 494
   size: 32, 14
   orig: 32, 14
   offset: 0, 0
   index: -1
 Slider/slider_top
   rotate: false
-  xy: 78, 344
+  xy: 150, 494
   size: 32, 14
   orig: 32, 14
   offset: 0, 0
   index: -1
 Slider/Stop_button
   rotate: false
-  xy: 40, 408
+  xy: 116, 456
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -117,28 +138,35 @@ spr_pause_background
   index: -1
 spr_slider_body
   rotate: false
-  xy: 53, 507
+  xy: 149, 427
   size: 7, 1
   orig: 7, 1
   offset: 0, 0
   index: -1
 spr_slider_edge
   rotate: false
-  xy: 2, 507
+  xy: 136, 427
   size: 7, 2
   orig: 7, 2
   offset: 0, 0
   index: -1
+wall_texture
+  rotate: false
+  xy: 136, 350
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 Wheel
   rotate: false
-  xy: 2, 188
+  xy: 2, 322
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 white
   rotate: false
-  xy: 66, 507
+  xy: 162, 427
   size: 1, 1
   orig: 1, 1
   offset: 0, 0

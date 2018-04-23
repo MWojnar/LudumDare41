@@ -80,4 +80,8 @@ public class SteeringWheel extends AbsoluteEntity {
     public float getTargetRotation() {
         return (currentRotation / ((float)Math.PI * maxTurns));
     }
+
+    public void setTargetRotation(float rotation) {
+        currentRotation = rotation * ((float)Math.PI * maxTurns);
+    }
 }
