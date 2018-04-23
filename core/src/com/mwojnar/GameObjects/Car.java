@@ -23,6 +23,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Car extends Entity {
@@ -34,6 +35,7 @@ public class Car extends Entity {
     targetSpeed = 0.0f, targetRotation = 0.0f, startRotation = 0.0f;
     private final float PIXELS_TO_METERS = 18.0f;
     private Color color = Color.WHITE.cpy();
+    private List<Road> roadCollisions = new ArrayList<Road>();
 
     public Car(GameWorld myWorld) {
         super(myWorld);
@@ -170,6 +172,11 @@ public class Car extends Entity {
             ((LudumDare41World)getWorld()).getPhysicsWorld().step(1.0f / 60.0f, 6, 2);
         }
 
+        if (roadCollisions.isEmpty())
+            physicsBody.setLinearDamping(friction * 2.0f);
+        else
+            physicsBody.setLinearDamping(friction);
+
         setPos(physicsBody.getPosition().x * PIXELS_TO_METERS,  physicsBody.getPosition().y * PIXELS_TO_METERS, true);
         setRotation(PlaygonMath.toDegrees(physicsBody.getAngle()));
 
@@ -274,5 +281,14 @@ public class Car extends Entity {
 
     public void setColor(Color color) {
         this.color = color.cpy();
+    }
+
+    public void addRoadCollision(Road road) {
+        roadCollisions.add(road);
+    }
+
+    public void removeRoadCollision(Road road) {
+        while (roadCollisions.contains(road))
+            roadCollisions.remove(road);
     }
 }

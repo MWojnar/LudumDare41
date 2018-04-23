@@ -24,6 +24,7 @@ import com.mwojnar.GameObjects.Dashboard;
 import com.mwojnar.GameObjects.FixtureUserData.CarUserData;
 import com.mwojnar.GameObjects.FixtureUserData.FixtureUserData;
 import com.mwojnar.GameObjects.RectWall;
+import com.mwojnar.GameObjects.Road;
 import com.mwojnar.GameObjects.Slider;
 import com.mwojnar.GameObjects.SliderButton;
 import com.mwojnar.GameObjects.SteeringWheel;
@@ -212,12 +213,23 @@ public class LudumDare41World extends GameWorld implements ButtonSubscriber {
 				if (contact.getFixtureA().getUserData() != null && contact.getFixtureB().getUserData() != null) {
 					FixtureUserData a = (FixtureUserData) contact.getFixtureA().getUserData();
 					FixtureUserData b = (FixtureUserData) contact.getFixtureB().getUserData();
-					//if (a.parent instanceof Car && b.parent instanceof ))
+					if (a.parent instanceof Car && b.parent instanceof Road)
+						((Car)a.parent).addRoadCollision((Road)b.parent);
+					else if (a.parent instanceof Road && b.parent instanceof Car)
+						((Car)b.parent).addRoadCollision((Road)a.parent);
 				}
 			}
 
 			@Override
 			public void endContact(Contact contact) {
+				if (contact.getFixtureA().getUserData() != null && contact.getFixtureB().getUserData() != null) {
+					FixtureUserData a = (FixtureUserData) contact.getFixtureA().getUserData();
+					FixtureUserData b = (FixtureUserData) contact.getFixtureB().getUserData();
+					if (a.parent instanceof Car && b.parent instanceof Road)
+						((Car) a.parent).removeRoadCollision((Road) b.parent);
+					else if (a.parent instanceof Road && b.parent instanceof Car)
+						((Car) b.parent).removeRoadCollision((Road) a.parent);
+				}
 			}
 
 			@Override
