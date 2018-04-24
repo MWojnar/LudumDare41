@@ -30,9 +30,10 @@ public class Car extends Entity {
     private Body physicsBody = null, topLeftWheel = null, topRightWheel = null, bottomLeftWheel = null, bottomRightWheel = null;
     private RevoluteJoint topLeftJoint = null, topRightJoint = null;
     public boolean canMove = false;
-    private float wheelAngle = 0.0f, tireAngle = 0.0f, tireRotationSpeed = (float)Math.PI / 200.0f, tireMaxRotation = (float)Math.PI / 4.0f,
-    friction = 1.0f, turningFriction = 2.0f, bodyDensity = 0.1f, tireDensity = 0.1f, maxForwardSpeed = 25.0f, maxReverseSpeed = 5.0f,
+    private float wheelAngle = 0.0f, tireAngle = 0.0f, tireRotationSpeed = (float)Math.PI / 180.0f, tireMaxRotation = (float)Math.PI / 4.0f,
+    friction = 2.0f, grassFriction = 6.0f, turningFriction = 50.0f, bodyDensity = 0.5f, tireDensity = 0.5f, maxForwardSpeed = 100.0f, maxReverseSpeed = 40.0f,
     targetSpeed = 0.0f, targetRotation = 0.0f, startRotation = 0.0f;
+    private int rank = 0;
     private final float PIXELS_TO_METERS = 18.0f;
     private Color color = Color.WHITE.cpy();
     private List<Road> roadCollisions = new ArrayList<Road>();
@@ -60,6 +61,7 @@ public class Car extends Entity {
                 tireDensity = Float.parseFloat((String) jsonObject.get("Car Tires Density"));
                 maxForwardSpeed = Float.parseFloat((String) jsonObject.get("Max Forward Force"));
                 maxReverseSpeed = Float.parseFloat((String) jsonObject.get("Max Reverse Force"));
+                grassFriction = Float.parseFloat((String) jsonObject.get("Grass Linear Dampening"));
             } catch (Exception e) {
                 //e.printStackTrace();
             }
@@ -172,9 +174,9 @@ public class Car extends Entity {
             ((LudumDare41World)getWorld()).getPhysicsWorld().step(1.0f / 60.0f, 6, 2);
         }
 
-        if (roadCollisions.isEmpty())
-            physicsBody.setLinearDamping(friction * 2.0f);
-        else
+        //if (roadCollisions.isEmpty())
+            //physicsBody.setLinearDamping(grassFriction);
+        //else
             physicsBody.setLinearDamping(friction);
 
         setPos(physicsBody.getPosition().x * PIXELS_TO_METERS,  physicsBody.getPosition().y * PIXELS_TO_METERS, true);
@@ -219,8 +221,12 @@ public class Car extends Entity {
 
     @Override
     public void draw(GameRenderer renderer) {
-        if (getSprite() != null)
-            getSprite().draw(getPos(false).x, getPos(false).y, getFrame(), getScale(), getScale(), getRotation(), getSprite().getWidth() / 2.0f, getSprite().getHeight() / 2.0f, color, renderer);
+        if (getSprite() != null) {
+            if (((LudumDare41World)getWorld()).isBlinking(rank) && (((LudumDare41World)getWorld()).getFramesSinceLevelCreation() % 20 > 9))
+                getSprite().draw(getPos(false).x, getPos(false).y, getFrame(), getScale(), getScale(), getRotation(), getSprite().getWidth() / 2.0f, getSprite().getHeight() / 2.0f, Color.WHITE, renderer);
+            else
+                getSprite().draw(getPos(false).x, getPos(false).y, getFrame(), getScale(), getScale(), getRotation(), getSprite().getWidth() / 2.0f, getSprite().getHeight() / 2.0f, color, renderer);
+        }
         /*float x1 = topLeftWheel.getWorldCenter().x * PIXELS_TO_METERS;
         float y1 = topLeftWheel.getWorldCenter().y * PIXELS_TO_METERS;
         float x2 = x1 + 10;
@@ -272,7 +278,9 @@ public class Car extends Entity {
     }
 
     public float getTargetSpeed() {
-        return targetSpeed / maxForwardSpeed;
+        if (targetSpeed >= 0)
+            return targetSpeed / maxForwardSpeed;
+        return targetSpeed / maxReverseSpeed;
     }
 
     public float getTargetRotation() {
@@ -283,6 +291,15 @@ public class Car extends Entity {
         this.color = color.cpy();
     }
 
+    public void setRank(int rank) {
+        this.rank = rank;
+        this.color = AssetLoader.playerColors[rank - 1];
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
     public void addRoadCollision(Road road) {
         roadCollisions.add(road);
     }
@@ -290,5 +307,20 @@ public class Car extends Entity {
     public void removeRoadCollision(Road road) {
         while (roadCollisions.contains(road))
             roadCollisions.remove(road);
+    }
+
+    public void startEngineNoise() {
+        float pitch = 1.0f;
+        if (targetSpeed > 0)
+            pitch = 0.5f + 1.5f * targetSpeed / maxForwardSpeed;
+        else if (targetSpeed < 0)
+            pitch = 0.5f - 0.75f * targetSpeed / maxReverseSpeed;
+        else
+            return;
+        AssetLoader.sndEngineList.get(rank - 1).loop(AssetLoader.soundVolume, pitch, 0.0f);
+    }
+
+    public void endEngineNoise() {
+        AssetLoader.sndEngineList.get(rank - 1).stop();
     }
 }

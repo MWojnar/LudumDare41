@@ -1936,7 +1936,7 @@ public class Wall extends Entity {
 		
 	}
 
-	private float[] vector2ToFloatArray(List<Vector2> list) {
+	public static float[] vector2ToFloatArray(List<Vector2> list) {
 
 		float[] returnFloat = new float[list.size() * 2];
 		for (int i = 0; i < list.size(); i++) {

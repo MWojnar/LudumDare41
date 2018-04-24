@@ -21,8 +21,10 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mwojnar.GameObjects.Car;
 import com.mwojnar.GameObjects.CarMarker;
 import com.mwojnar.GameObjects.Dashboard;
+import com.mwojnar.GameObjects.FinishLine;
 import com.mwojnar.GameObjects.FixtureUserData.CarUserData;
 import com.mwojnar.GameObjects.FixtureUserData.FixtureUserData;
+import com.mwojnar.GameObjects.PolyWall;
 import com.mwojnar.GameObjects.RectWall;
 import com.mwojnar.GameObjects.Road;
 import com.mwojnar.GameObjects.Slider;
@@ -32,6 +34,7 @@ import com.mwojnar.GameObjects.Title;
 import com.mwojnar.Game.LudumDare41Game;
 import com.mwojnar.Assets.AssetLoader;
 import com.mwojnar.GameObjects.Wall;
+import com.mwojnar.GameObjects.WinObject;
 import com.mwojnar.Interfaces.ButtonSubscriber;
 import com.playgon.GameEngine.AbsoluteEntity;
 import com.playgon.GameEngine.Background;
@@ -56,7 +59,7 @@ public class LudumDare41World extends GameWorld implements ButtonSubscriber {
 	private boolean showFPS = true, paused = false, started = false;
 	private float dashWidth = 400.0f, dashHeight = 150.0f;
 	private long framesSinceLevelCreation = 0;
-	private int simTimer = 0, simTime = 10, carTurn = 0, transTimer = 0, transTimerMax = 60,
+	private int simTimer = 0, simTime = 3, carTurn = 0, transTimer = 0, transTimerMax = 60,
 				transCamTimerMax = 30, transToCarMax = 30, transBackTimer = 0;
 	private FileHandle levelToLoad = null;
 	private Random rand = new Random();
@@ -65,6 +68,8 @@ public class LudumDare41World extends GameWorld implements ButtonSubscriber {
 	private SteeringWheel wheel = null;
 	private Slider slider = null;
 	private List<Car> carList = new ArrayList<Car>();
+	private WinObject winObject = null;
+	private boolean raceWon = false;
 	
 	public LudumDare41World() {
 		
@@ -90,9 +95,8 @@ public class LudumDare41World extends GameWorld implements ButtonSubscriber {
 			//e.printStackTrace();
 		}
 		//START PLAYING MUSIC
-		AssetLoader.musicHandler.startMusic(AssetLoader.musicMain);
 
-		/*boolean loadMenus = true;
+		boolean loadMenus = true;
 		if (LudumDare41Game.args != null) {
 
 			for (int i = 0; i < LudumDare41Game.args.length; i++) {
@@ -103,7 +107,7 @@ public class LudumDare41World extends GameWorld implements ButtonSubscriber {
 
 						clearWorld();
 						trueLoadLevel(Gdx.files.absolute(LudumDare41Game.args[i + 1]));
-						startGameAlt();
+						startGameAlt(4);
 						loadMenus = false;
 						break;
 
@@ -115,10 +119,11 @@ public class LudumDare41World extends GameWorld implements ButtonSubscriber {
 
 		}
 		if (loadMenus)
-			startMenu();*/
-		clearWorld();
+			startMenu();
+		/*clearWorld();
 		trueLoadLevel(Gdx.files.internal("Level1.ple"));
-		startGameAlt();
+		AssetLoader.musicHandler.startMusic(AssetLoader.musicMain);
+		startGameAlt();*/
 		
 		addBackgrounds();
 		
@@ -129,6 +134,12 @@ public class LudumDare41World extends GameWorld implements ButtonSubscriber {
 			
 		}*/
 		
+	}
+
+	public void startLevel1(int players) {clearWorld();
+		trueLoadLevel(Gdx.files.internal("Level1.ple"));
+		AssetLoader.musicHandler.startMusic(AssetLoader.musicMain);
+		startGameAlt(players);
 	}
 	
 	public void startGame() {
@@ -182,7 +193,7 @@ public class LudumDare41World extends GameWorld implements ButtonSubscriber {
 		for (int i = 0; i < 2; i++) {
 			Car car = new Car(this);
 			car.setPos(100.0f * (i + 1), 100.0f * (i + 1), false);
-			car.setColor(AssetLoader.playerColors[i]);
+			car.setRank(1);
 			createEntity(car);
 			carList.add(car);
 		}
@@ -198,7 +209,7 @@ public class LudumDare41World extends GameWorld implements ButtonSubscriber {
 		addBackground(background);
 	}
 
-	private void startGameAlt() {
+	private void startGameAlt(int players) {
 		AssetLoader.debugFont.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		setCamPos(new Vector2(getGameDimensions().x / 2.0f, getGameDimensions().y / 2.0f));
 		mode = Mode.GAME;
@@ -217,6 +228,17 @@ public class LudumDare41World extends GameWorld implements ButtonSubscriber {
 						((Car)a.parent).addRoadCollision((Road)b.parent);
 					else if (a.parent instanceof Road && b.parent instanceof Car)
 						((Car)b.parent).addRoadCollision((Road)a.parent);
+					//if (contact.getTangentSpeed() > 0.1f) {
+						if (a.parent instanceof Car && b.parent instanceof PolyWall || a.parent instanceof PolyWall && b.parent instanceof Car)
+							AssetLoader.sndCrash.play(0.5f);
+						if (a.parent instanceof Car && b.parent instanceof Car)
+							AssetLoader.sndCrash.play(0.5f);
+					//}
+					if (a.parent instanceof Car && b.parent instanceof FinishLine)
+						endRace(((Car)a.parent).getRank());
+					else if (a.parent instanceof FinishLine && b.parent instanceof Car)
+						endRace(((Car)b.parent).getRank());
+
 				}
 			}
 
@@ -261,7 +283,7 @@ public class LudumDare41World extends GameWorld implements ButtonSubscriber {
 			if (entity instanceof CarMarker && ((CarMarker)entity).getPlace() == 1) {
 				CarMarker carMarker = ((CarMarker)entity);
 				Car car = new Car(this);
-				car.setColor(AssetLoader.playerColors[0]);
+				car.setRank(1);
 				car.setPos(carMarker.getPos(true), false);
 				car.setRotation(carMarker.getRotation());
 				carList.add(car);
@@ -272,39 +294,48 @@ public class LudumDare41World extends GameWorld implements ButtonSubscriber {
 		}
 		for (Entity entity : getEntityList()) {
 			if (entity instanceof CarMarker && ((CarMarker)entity).getPlace() == 2) {
-				CarMarker carMarker = ((CarMarker)entity);
-				Car car = new Car(this);
-				car.setColor(AssetLoader.playerColors[1]);
-				car.setPos(carMarker.getPos(true), false);
-				car.setRotation(carMarker.getRotation());
-				carList.add(car);
-				createEntity(car);
+				CarMarker carMarker = ((CarMarker) entity);
+				if (players > 1) {
+
+					Car car = new Car(this);
+					car.setRank(2);
+					car.setPos(carMarker.getPos(true), false);
+					car.setRotation(carMarker.getRotation());
+					carList.add(car);
+					createEntity(car);
+				}
 				destroyEntity(carMarker);
 				break;
 			}
 		}
 		for (Entity entity : getEntityList()) {
 			if (entity instanceof CarMarker && ((CarMarker)entity).getPlace() == 3) {
-				CarMarker carMarker = ((CarMarker)entity);
-				Car car = new Car(this);
-				car.setColor(AssetLoader.playerColors[2]);
-				car.setPos(carMarker.getPos(true), false);
-				car.setRotation(carMarker.getRotation());
-				carList.add(car);
-				createEntity(car);
+				CarMarker carMarker = ((CarMarker) entity);
+				if (players > 2) {
+
+					Car car = new Car(this);
+					car.setRank(3);
+					car.setPos(carMarker.getPos(true), false);
+					car.setRotation(carMarker.getRotation());
+					carList.add(car);
+					createEntity(car);
+				}
 				destroyEntity(carMarker);
 				break;
 			}
 		}
 		for (Entity entity : getEntityList()) {
 			if (entity instanceof CarMarker && ((CarMarker)entity).getPlace() == 4) {
-				CarMarker carMarker = ((CarMarker)entity);
-				Car car = new Car(this);
-				car.setColor(AssetLoader.playerColors[3]);
-				car.setPos(carMarker.getPos(true), false);
-				car.setRotation(carMarker.getRotation());
-				carList.add(car);
-				createEntity(car);
+				CarMarker carMarker = ((CarMarker) entity);
+				if (players > 3) {
+
+					Car car = new Car(this);
+					car.setRank(4);
+					car.setPos(carMarker.getPos(true), false);
+					car.setRotation(carMarker.getRotation());
+					carList.add(car);
+					createEntity(car);
+				}
 				destroyEntity(carMarker);
 				break;
 			}
@@ -341,9 +372,13 @@ public class LudumDare41World extends GameWorld implements ButtonSubscriber {
 	
 	public void startMenu() {
 		
-
+		raceWon = false;
+		if (physicsWorld != null)
+			physicsWorld.dispose();
+		physicsWorld = new World(new Vector2(), true);
 		AssetLoader.debugFont.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		clearWorld();
+		getRenderer().setCamDimensions(800.0f, 480.0f);
 		setCamPos(new Vector2(getGameDimensions().x / 2.0f, getGameDimensions().y / 2.0f));
 		mode = Mode.MENU;
 		Title title = new Title(this);
@@ -352,6 +387,7 @@ public class LudumDare41World extends GameWorld implements ButtonSubscriber {
 		background.setTilingY(true);
 		background.setTilingX(true);
 		addBackground(background);
+		AssetLoader.musicHandler.startMusic(AssetLoader.musicMain);
 		
 	}
 
@@ -370,13 +406,15 @@ public class LudumDare41World extends GameWorld implements ButtonSubscriber {
 		
 		if (AssetLoader.loaded) {
 			
-			if (!paused) {
+			if (!paused && !raceWon) {
 
 				framesSinceLevelCreation++;
 				if (transTimer > 0) {
 					transTimer--;
-					if (transTimer <= 0)
+					if (transTimer <= 0) {
 						simTimer = simTime * 60;
+						startEngineNoises();
+					}
 				}
 				if (transBackTimer > 0) {
 					transBackTimer--;
@@ -388,6 +426,7 @@ public class LudumDare41World extends GameWorld implements ButtonSubscriber {
 					physicsWorld.clearForces();
 					simTimer--;
 					if (simTimer <= 0) {
+						endEngineNoises();
 						transBackTimer = transToCarMax + 2;
 						if (!carList.isEmpty()) {
 							getForces(0);
@@ -431,6 +470,10 @@ public class LudumDare41World extends GameWorld implements ButtonSubscriber {
 		float initHeight = maxY - minY;
 		float width = initWidth;
 		float height = initHeight;
+		if (width < gameWidth)
+			width = gameWidth;
+		if (height < gameHeight)
+			height = gameHeight;
 		if (width / height > gameWidth / gameHeight)
 			height = width * gameHeight / gameWidth;
 		else
@@ -450,23 +493,7 @@ public class LudumDare41World extends GameWorld implements ButtonSubscriber {
 	@Override
 	protected void updateMain(float delta) {
 
-		if (paused) {
-
-			float scale = getGameDimensions().y / 240.0f;
-			for (TouchEvent touchEvent : getCurrentTouchEventList()) {
-
-				Rectangle rect2 = new Rectangle(getGameDimensions().x - 10.0f - 9.0f * 15.0f, getGameDimensions().y - 30.0f, 9.0f * 15.0f, 20.0f);
-				if (touchEvent.type == TouchEvent.Type.TOUCH_UP) {
-
-					setPaused(false);
-					//AssetLoader.soundUIUnpausing.play(AssetLoader.soundVolume);
-					return;
-
-				}
-
-			}
-
-		} else if (levelToLoad == null) {
+		if (levelToLoad == null && !isPaused()) {
 
 			super.updateMain(delta);
 			if (mode == Mode.GAME) {
@@ -694,5 +721,25 @@ public class LudumDare41World extends GameWorld implements ButtonSubscriber {
 
 	public boolean isSim() {
 		return simTimer > 0;
+	}
+
+	private void startEngineNoises() {
+		for (Car car : carList)
+			car.startEngineNoise();
+	}
+
+	private void endEngineNoises() {
+		for (Car car : carList)
+			car.endEngineNoise();
+	}
+
+	public boolean isBlinking(int rank) {
+		return transTimer <= 0 && transBackTimer <= 0 && simTimer <= 0 && carTurn == rank - 1;
+	}
+
+	public void endRace(int player) {
+		endEngineNoises();
+		raceWon = true;
+		createEntity(new WinObject(this, player));
 	}
 }

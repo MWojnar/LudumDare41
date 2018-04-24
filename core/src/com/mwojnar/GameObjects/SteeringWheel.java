@@ -19,7 +19,7 @@ import java.io.FileReader;
 import java.util.List;
 
 public class SteeringWheel extends AbsoluteEntity {
-    private float currentRotation = 0.0f, maxTurns = 3.0f;
+    private float currentRotation = 0.0f, maxTurns = 1.0f;
     private TouchEvent grabTouch = null;
     private Vector2 previousPoint = null;
 

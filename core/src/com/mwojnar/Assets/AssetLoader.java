@@ -43,14 +43,16 @@ public class AssetLoader {
 			sliderBodyTexture, sliderFasterTexture, sliderPauseTexture, sliderSlowerTexture,
 			sliderTexture, dashLeftTexture, dashTopLeftTexture, dashTopTexture, dashTopRightTexture,
 			dashRightTexture, whiteTexture, doneButtonTexture, carTexture, grassTexture, roadTexture,
-			finishTexture, wallTexture;
+			finishTexture, wallTexture, titleTexture;
 	public static TextureRegion checkeredBackgroundTexture;
 	public static Sprite spriteSteeringWheel, spriteSliderTop, spriteSliderBottom, spriteSliderBody,
 			spriteSliderFaster, spriteSliderPause, spriteSliderSlower, spriteSlider, spriteDashLeft,
 			spriteDashTopLeft, spriteDashTop, spriteDashTopRight, spriteDashRight, spriteWhite,
-			spriteDoneButton, spriteCar, spriteRoad, spriteFinish, spriteWall;
-	public static BackgroundTemplate backgroundCheckered, backgroundGrass;
+			spriteDoneButton, spriteCar, spriteRoad, spriteFinish, spriteWall, spriteTitle;
+	public static BackgroundTemplate backgroundCheckered, backgroundGrass, backgroundRoad;
 	public static MusicTemplate musicMain;
+	public static Sound sndCrash;
+	public static List<Sound> sndEngineList = new ArrayList<Sound>();
 	public static MusicHandler musicHandler;
 	public static List<Class<? extends Entity>> classList = new ArrayList<Class<? extends Entity>>(Arrays.asList(CarMarker.class, Road.class, PolyWall.class, FinishLine.class));
 	public static List<Pair<String, Sprite>> spriteList = new ArrayList<Pair<String, Sprite>>();
@@ -58,7 +60,7 @@ public class AssetLoader {
 	public static List<Pair<String, BackgroundTemplate>> backgroundList = new ArrayList<Pair<String, BackgroundTemplate>>();
 	public static List<Pair<String, MusicTemplate>> musicList = new ArrayList<Pair<String, MusicTemplate>>();
 	public static List<Class<? extends MaskSurface>> surfaceClassList = new ArrayList<Class<? extends MaskSurface>>();
-	public static BitmapFont debugFont = new BitmapFont(true), titleFont = new BitmapFont(true);
+	public static BitmapFont debugFont = new BitmapFont(true), titleFont = new BitmapFont(true), winFont = new BitmapFont(true);
 	public static Color dashColor = new Color(119 / 255.0f, 28 / 255.0f, 112 / 255.0f, 1.0f);
 	public static Color[] playerColors = new Color[] {Color.BLUE, Color.RED, Color.YELLOW, Color.GREEN, Color.PURPLE, Color.ORANGE, Color.CYAN, Color.BROWN};
 	public static float musicVolume = 0.5f, soundVolume = 1.0f;
@@ -78,8 +80,8 @@ public class AssetLoader {
 		assetManager.load("data/Images/LudumDare41Textures.pack", TextureAtlas.class);
 		
 		Preferences preferences = Gdx.app.getPreferences("LudumDare41 Prefs");
-		musicVolume = preferences.getFloat("musicVolume", 1.0f);
-		soundVolume = preferences.getFloat("soundVolume", 0.5f);
+		musicVolume = preferences.getFloat("musicVolume", 0.5f);
+		soundVolume = preferences.getFloat("soundVolume", 1.0f);
 		
 		loadSoundsManager();
 		
@@ -117,23 +119,31 @@ public class AssetLoader {
 		parameter.color = Color.WHITE;
 		titleFont = generator.generateFont(parameter);
 		generator.dispose();
+
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("data/Fonts/pixel font-7.ttf"));
+		parameter = new FreeTypeFontParameter();
+		parameter.size = 64;
+		parameter.flip = true;
+		parameter.color = Color.WHITE;
+		winFont = generator.generateFont(parameter);
+		generator.dispose();
 		
 	}
 	
 	private static void loadSoundsManager() {
 		
-		//assetManager.load("data/Sounds/snd_airGain.mp3", com.badlogic.gdx.audio.Sound.class);
+		assetManager.load("data/Sounds/crash.mp3", com.badlogic.gdx.audio.Sound.class);
+		assetManager.load("data/Sounds/engine.mp3", com.badlogic.gdx.audio.Sound.class);
 		
 	}
 	
 	private static void loadSounds() {
 		
-		//sndAirGain = LudumDare41Game.createSound(assetManager.get("data/Sounds/snd_airGain.mp3", com.badlogic.gdx.audio.Sound.class));
-		
-		/*sndGrpMonster = new SoundGroup();
-		sndGrpMonster.add(sndMonster1);
-		sndGrpMonster.add(sndMonster2);
-		sndGrpMonster.add(sndMonster3);*/
+		sndCrash = LudumDare41Game.createSound(assetManager.get("data/Sounds/crash.mp3", com.badlogic.gdx.audio.Sound.class));
+		sndEngineList.add(LudumDare41Game.createSound(assetManager.get("data/Sounds/engine.mp3", com.badlogic.gdx.audio.Sound.class)));
+		sndEngineList.add(LudumDare41Game.createSound(assetManager.get("data/Sounds/engine.mp3", com.badlogic.gdx.audio.Sound.class)));
+		sndEngineList.add(LudumDare41Game.createSound(assetManager.get("data/Sounds/engine.mp3", com.badlogic.gdx.audio.Sound.class)));
+		sndEngineList.add(LudumDare41Game.createSound(assetManager.get("data/Sounds/engine.mp3", com.badlogic.gdx.audio.Sound.class)));
 		
 	}
 	
@@ -141,6 +151,7 @@ public class AssetLoader {
 		
 		musicMain = new MusicTemplate(Gdx.files.internal("data/Music/music.mp3"));
 		musicMain.setLooping(true);
+		musicMain.setVolume(0.5f);
 		musicHandler.addMusic(musicMain);
 		
 	}
@@ -170,6 +181,7 @@ public class AssetLoader {
 		roadTexture = atlas.findRegion("Road_texture");
 		finishTexture = atlas.findRegion("finish");
 		wallTexture = atlas.findRegion("wall_texture");
+		titleTexture = atlas.findRegion("logo");
 
 		dashLeftTexture = atlas.findRegion("Dashboard_left");
 		dashTopLeftTexture = atlas.findRegion("Dashboard_left_corner");
@@ -204,6 +216,7 @@ public class AssetLoader {
 		spriteWall = new Sprite(wallTexture, 1);
 		spriteList.add(new Pair<String, Sprite>("Wall", spriteWall));
 		spriteWallBackgroundList.add(new Pair<String, Sprite>("Wall", spriteWall));
+		spriteTitle = new Sprite(titleTexture, 1);
 
 		spriteDashLeft = new Sprite(dashLeftTexture, 1);
 		spriteDashTopLeft = new Sprite(dashTopLeftTexture, 1);
@@ -215,6 +228,8 @@ public class AssetLoader {
 		backgroundList.add(new Pair<String, BackgroundTemplate>("Checkered", backgroundCheckered));
 		backgroundGrass = new BackgroundTemplate(grassTexture, 1);
 		backgroundList.add(new Pair<String, BackgroundTemplate>("Grass", backgroundGrass));
+		backgroundRoad = new BackgroundTemplate(roadTexture, 1);
+		backgroundList.add(new Pair<String, BackgroundTemplate>("Road", backgroundRoad));
 		
 	}
 	
